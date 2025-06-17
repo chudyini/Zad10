@@ -83,6 +83,11 @@
         android:layout_height="wrap_content"
         android:text="OK"/>
 
+    <TextView
+        android:id="@+id/wyswietlanko"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
 
 

@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity{
     EditText celWizyty;
     TimePicker timePickerr;
     Button przycisk;
+    TextView wyswietlanko;
+    int selectedItemPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -38,13 +41,15 @@ public class MainActivity extends AppCompatActivity{
         gatuneczek =findViewById(R.id.gatuneczek);
         mySimpleSpinner =findViewById(R.id.mySimpleSpinner);
         ileLat =findViewById(R.id.ileLat);
-        aktualnyWiek =findViewById(R.id.ileLat);
         wiekSeekBar =findViewById(R.id.wiekSeekBar);
         celWizyty =findViewById(R.id.celWizyty);
         timePickerr = findViewById(R.id.timePickerr);
         przycisk = findViewById(R.id.przycisk);
         timePickerr.setHour(16);
         timePickerr.setMinute(0);
+        wyswietlanko = findViewById(R.id.wyswietlanko);
+
+
 
         wiekSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -71,15 +76,47 @@ public class MainActivity extends AppCompatActivity{
         mySimpleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedItemPosition = position;
                 String selectUnit;
                 selectUnit = parent.getItemAtPosition(position).toString();
                 ileLat.setText("0");
-                aktualnyWiek.setText("0");
+                if(selectUnit == "Pies"){
+                    wiekSeekBar.setMax(18);
+                } else if (selectUnit == "Kot") {
+                    wiekSeekBar.setMax(20);
 
+                } else if (selectUnit == "Swinka Morska") {
+                    wiekSeekBar.setMax(9);
+
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        wiekSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                ileLat.setText(wiekSeekBar.getProgress());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        przycisk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String daneWlascicielaText = daneWlasciciela.getText().toString().trim();
+                wyswietlanko.setText(daneWlascicielaText+","+mySimpleSpinner.getItemAtPosition(selectedItemPosition)+","+ileLat.getText()+","+celWizyty.getText()+","+timePickerr.getHour()+":"+timePickerr.getMinute());
 
             }
         });
